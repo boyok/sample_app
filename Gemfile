@@ -10,8 +10,8 @@ group :development, :test do
 end
 #use test
 group :test do
-  gem 'selenium-webdriver', '2.35.1'
-  gem 'capybara', '2.1.0'
+  gem 'selenium-webdriver'
+  gem 'capybara'
 end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
