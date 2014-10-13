@@ -13,6 +13,7 @@ gem 'bootstrap-will_paginate'
 group :development, :test do
   gem 'sqlite3', '>=1.3.8'
   gem 'rspec-rails', '>=2.13.1'
+  gem 'rspec-its'
   gem 'guard-rspec'
   gem 'spork-rails', '4.0.0'
   gem 'guard-spork', '1.5.0'
@@ -27,7 +28,7 @@ group :test do
   gem 'libnotify', '0.8.0'
   gem 'factory_girl_rails'
   gem 'cucumber-rails', :require => false
-  gem 'database_cleaner'# gihub: 'bmabey/database_cleaner'
+  gem 'database_cleaner', github: 'bmabey/database_cleaner'
 
 end
 # Use SCSS for stylesheets
@@ -57,7 +58,7 @@ group :production do
 end
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+#gem 'spring',        group: :development
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
