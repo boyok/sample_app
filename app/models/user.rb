@@ -1,14 +1,23 @@
 class User < ActiveRecord::Base
   has_many :microposts, dependent: :destroy #delete microposts when delete user
-	before_save { self.email = email.downcase }
+	has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed
+  has_many :reverse_relationships, foreign_key: "followed_id",
+              class_name: "Relationship",
+              dependent: :destroy
+  has_many :followers, through: :reverse_relationships, source: :follower
+  
+
+  before_save { self.email = email.downcase }
 
     
 
 	before_create :create_remember_token 
   before_create { self.name = name.strip }
     
-  #VALID_NAME_REGEX =  /\A[a-z\d\-]\z/i    format:  { with: VALID_NAME_REGEX }
+  #VALID_NAME_REGEX =  /\A\S*\S*$\z/   
 	validates( :name, presence: true, 
+              #format:  { with: VALID_NAME_REGEX },
               length: { maximum: 50 }, 
               uniqueness: { case_sensitive: false } )
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
@@ -27,10 +36,23 @@ class User < ActiveRecord::Base
   end
 
   def feed
-    # Это предварительное решение. См. полную реализацию в "Following users".
+    # Это предварительное решение. 
     Micropost.where("user_id = ?", id)
     #microposts
   end
+
+  def following?(other_user)
+    relationships.find_by(followed_id: other_user.id)
+  end
+
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+
+  def unfollow!(other_user)
+    relationships.find_by(followed_id: other_user.id).destroy!
+  end
+
   private
 
     def create_remember_token

@@ -1,6 +1,16 @@
 <% provide(:title, 'Home') %>
 <% if signed_in? %>
-	<%= render 'shared/home_sign_in' %>
+	
+	<section>
+    <%= render 'shared/user_info' %>
+  </section>
+  <section>
+    <%= render 'shared/stats' %>
+  </section>
+  <section>
+    <%= render 'shared/micropost_form' %>
+  </section>
+  <%= render 'shared/feed' %>
 <% else %>
 	<%= render 'shared/home_sign_out' %>
 <% end %>
